@@ -1,7 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 type Destination = {
   id: number;
@@ -20,8 +22,46 @@ const destinations: Destination[] = [
 ];
 
 const FeatureDestinationsGrid: React.FC = () => {
+  const destinationRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    destinationRefs.current.forEach((destination, index) => {
+      if (destination) {
+        gsap.fromTo(
+          destination,
+          {
+            opacity: 0,
+            y: 50,
+            scale: 0.8,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 1.5,
+            delay: index * 0.1,
+            scrollTrigger: {
+              trigger: destination,
+              start: 'top 80%',
+              toggleActions: 'play none none reverse',
+            },
+          }
+        );
+      }
+    });
+  }, []);
+
   return (
-    <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto', position: 'relative' }}>
+    <div
+      style={{
+        padding: '20px',
+        maxWidth: '1200px',
+        margin: '0 auto',
+        position: 'relative',
+      }}
+    >
       <h2
         style={{
           textAlign: 'center',
@@ -101,20 +141,38 @@ const FeatureDestinationsGrid: React.FC = () => {
           style={{
             display: 'flex',
             gap: '16px',
-            padding: '0 50px', // Add padding for fade effect
+            padding: '0 50px',
           }}
         >
           {/* Original items */}
-          {destinations.map((destination) => (
-            <DestinationCard key={`original-${destination.id}`} destination={destination} />
+          {destinations.map((destination, index) => (
+            <DestinationCard
+              key={`original-${destination.id}`}
+              destination={destination}
+              ref={(el) => {
+                destinationRefs.current[index] = el;
+              }}
+            />
           ))}
 
           {/* Cloned items for seamless looping */}
-          {destinations.map((destination) => (
-            <DestinationCard key={`clone-${destination.id}`} destination={destination} />
+          {destinations.map((destination, index) => (
+            <DestinationCard
+              key={`clone-${destination.id}`}
+              destination={destination}
+              ref={(el) => {
+                destinationRefs.current[index + destinations.length] = el;
+              }}
+            />
           ))}
-          {destinations.map((destination) => (
-            <DestinationCard key={`clone2-${destination.id}`} destination={destination} />
+          {destinations.map((destination, index) => (
+            <DestinationCard
+              key={`clone2-${destination.id}`}
+              destination={destination}
+              ref={(el) => {
+                destinationRefs.current[index + 2 * destinations.length] = el;
+              }}
+            />
           ))}
         </div>
       </div>
@@ -122,64 +180,69 @@ const FeatureDestinationsGrid: React.FC = () => {
   );
 };
 
-const DestinationCard: React.FC<{ destination: Destination }> = ({ destination }) => {
-  return (
-    <div
-      style={{
-        flex: '0 0 auto',
-        width: 'calc(25% - 12px)',
-        minWidth: '250px',
-        maxWidth: '300px',
-        scrollSnapAlign: 'start',
-        position: 'relative',
-        overflow: 'hidden',
-        borderRadius: '8px',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-        transition: 'transform 0.3s ease',
-        cursor: 'pointer',
-      }}
-      onMouseEnter={(e) =>
-        ((e.currentTarget as HTMLDivElement).style.transform = 'scale(1.03)')
-      }
-      onMouseLeave={(e) =>
-        ((e.currentTarget as HTMLDivElement).style.transform = 'scale(1)')
-      }
-    >
-      <Image
-        src={destination.src}
-        alt={destination.alt}
-        width={400}
-        height={200}
-        style={{
-          width: '100%',
-          height: '200px',
-          objectFit: 'cover',
-        }}
-      />
+const DestinationCard = React.forwardRef<HTMLDivElement, { destination: Destination }>(
+  ({ destination }, ref) => {
+    return (
       <div
+        ref={ref}
         style={{
-          position: 'absolute',
-          bottom: '0',
-          left: '0',
-          width: '100%',
-          padding: '12px',
-          backgroundColor: 'rgba(0, 0, 0, 0.7)',
-          color: '#fff',
+          flex: '0 0 auto',
+          width: 'calc(25% - 12px)',
+          minWidth: '250px',
+          maxWidth: '300px',
+          scrollSnapAlign: 'start',
+          position: 'relative',
+          overflow: 'hidden',
+          borderRadius: '8px',
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+          transition: 'transform 0.3s ease',
+          cursor: 'pointer',
         }}
+        onMouseEnter={(e) =>
+          ((e.currentTarget as HTMLDivElement).style.transform = 'scale(1.03)')
+        }
+        onMouseLeave={(e) =>
+          ((e.currentTarget as HTMLDivElement).style.transform = 'scale(1)')
+        }
       >
-        <p
+        <Image
+          src={destination.src}
+          alt={destination.alt}
+          width={400}
+          height={200}
           style={{
-            margin: '0',
-            fontSize: '16px',
-            fontWeight: '500',
-            textAlign: 'center',
+            width: '100%',
+            height: '200px',
+            objectFit: 'cover',
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '0',
+            left: '0',
+            width: '100%',
+            padding: '12px',
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            color: '#fff',
           }}
         >
-          {destination.alt}
-        </p>
+          <p
+            style={{
+              margin: '0',
+              fontSize: '16px',
+              fontWeight: '500',
+              textAlign: 'center',
+            }}
+          >
+            {destination.alt}
+          </p>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+);
+
+DestinationCard.displayName = 'DestinationCard';
 
 export default FeatureDestinationsGrid;
