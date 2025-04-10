@@ -29,12 +29,13 @@ export default function NavbarPage() {
         <NavbarLink href="/" active className="text-xl">
           Home
         </NavbarLink>
-        <NavbarLink href="/Destinations" className="text-xl">
-          Destinations
+        <NavbarLink href="/Planner" className="text-xl">
+          Planner
         </NavbarLink>
-        <NavbarLink href="/about" className="text-xl">
-          About
+        <NavbarLink href="/destination" className="text-xl">
+          Destination
         </NavbarLink>
+
         <NavbarLink href="/contact" className="text-xl">
           Contact
         </NavbarLink>

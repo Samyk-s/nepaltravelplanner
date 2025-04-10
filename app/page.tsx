@@ -1,4 +1,5 @@
 import { ContentComp } from "@/component/content/content";
+import FeatureDestinationsGrid from "@/component/destination/featuredestination";
 import { HeroComp } from "@/component/Hero/Hero";
 
 export default function Home() {
@@ -6,6 +7,7 @@ export default function Home() {
     <>
       <HeroComp />
       <ContentComp />
+      <FeatureDestinationsGrid />
     </>
   );
 }
