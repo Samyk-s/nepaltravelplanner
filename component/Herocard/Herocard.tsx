@@ -7,7 +7,7 @@ import SendIcon from "@mui/icons-material/Send";
 export function HeroCardComp() {
   return (
     <Card
-      className="max-w-sm bg-transparent backdrop-blur-lg bg-black bg-opacity-30 flex flex-col items-center justify-center h-full py-8"
+      className="max-w-sm bg-transparent backdrop-blur-lg bg-opacity-30 flex flex-col items-center justify-center h-full py-8"
     >
       <h5 className="text-2xl font-bold tracking-tight text-white text-center">
         Plan Your Adventure in Nepal
