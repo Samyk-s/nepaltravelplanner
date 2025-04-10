@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 
 type Destination = {
@@ -20,54 +20,6 @@ const destinations: Destination[] = [
 ];
 
 const FeatureDestinationsGrid: React.FC = () => {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const scrollContentRef = useRef<HTMLDivElement>(null);
-  const animationRef = useRef<number>();
-  const [isHovered, setIsHovered] = useState(false);
-  const scrollSpeed = 0.5; // Slower speed for smoother transition
-
-  useEffect(() => {
-    const scrollContainer = scrollContainerRef.current;
-    const scrollContent = scrollContentRef.current;
-
-    if (!scrollContainer || !scrollContent) return;
-
-    let scrollPosition = 0;
-    let requestId: number;
-
-    const animateScroll = () => {
-      if (!scrollContainer || !scrollContent || isHovered) {
-        return;
-      }
-
-      scrollPosition += scrollSpeed;
-      
-      // Reset position when we've scrolled all items
-      const containerWidth = scrollContainer.clientWidth;
-      const contentWidth = scrollContent.scrollWidth / 3; // Since we have 3 clones
-      
-      if (scrollPosition >= contentWidth) {
-        scrollPosition = 0;
-        scrollContainer.scrollLeft = 0;
-      } else {
-        scrollContainer.scrollLeft = scrollPosition;
-      }
-
-      requestId = requestAnimationFrame(animateScroll);
-      animationRef.current = requestId;
-    };
-
-    // Start the animation
-    requestId = requestAnimationFrame(animateScroll);
-    animationRef.current = requestId;
-
-    return () => {
-      if (requestId) {
-        cancelAnimationFrame(requestId);
-      }
-    };
-  }, [isHovered]);
-
   return (
     <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto', position: 'relative' }}>
       <h2
@@ -93,39 +45,43 @@ const FeatureDestinationsGrid: React.FC = () => {
       </p>
 
       {/* Fade effect containers */}
-      <div style={{
-        position: 'absolute',
-        top: '50%',
-        left: 0,
-        right: 0,
-        height: '250px',
-        transform: 'translateY(-50%)',
-        pointerEvents: 'none',
-        display: 'flex',
-        justifyContent: 'space-between',
-        zIndex: 2,
-      }}>
-        <div style={{
-          width: '100px',
-          height: '100%',
-          background: 'linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)',
-        }} />
-        <div style={{
-          width: '100px',
-          height: '100%',
-          background: 'linear-gradient(270deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)',
-        }} />
+      <div
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: 0,
+          right: 0,
+          height: '250px',
+          transform: 'translateY(-50%)',
+          pointerEvents: 'none',
+          display: 'flex',
+          justifyContent: 'space-between',
+          zIndex: 2,
+        }}
+      >
+        <div
+          style={{
+            width: '100px',
+            height: '100%',
+            background:
+              'linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)',
+          }}
+        />
+        <div
+          style={{
+            width: '100px',
+            height: '100%',
+            background:
+              'linear-gradient(270deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)',
+          }}
+        />
       </div>
 
       {/* Horizontal scroll container */}
       <div
-        ref={scrollContainerRef}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
         style={{
           display: 'flex',
           overflowX: 'auto',
-          scrollSnapType: 'x mandatory',
           gap: '16px',
           padding: '10px 0',
           scrollBehavior: 'smooth',
@@ -140,9 +96,8 @@ const FeatureDestinationsGrid: React.FC = () => {
             display: none;
           }
         `}</style>
-        
+
         <div
-          ref={scrollContentRef}
           style={{
             display: 'flex',
             gap: '16px',
@@ -153,7 +108,7 @@ const FeatureDestinationsGrid: React.FC = () => {
           {destinations.map((destination) => (
             <DestinationCard key={`original-${destination.id}`} destination={destination} />
           ))}
-          
+
           {/* Cloned items for seamless looping */}
           {destinations.map((destination) => (
             <DestinationCard key={`clone-${destination.id}`} destination={destination} />
