@@ -1,6 +1,3 @@
-
-"use client";
-
 import {
   Footer,
   FooterBrand,
@@ -11,7 +8,13 @@ import {
   FooterLinkGroup,
   FooterTitle,
 } from "flowbite-react";
-import { BsDribbble, BsFacebook, BsGithub, BsInstagram, BsTwitter } from "react-icons/bs";
+import {
+  BsDribbble,
+  BsFacebook,
+  BsGithub,
+  BsInstagram,
+  BsTwitter,
+} from "react-icons/bs";
 
 export function FooterComp() {
   return (
@@ -23,7 +26,6 @@ export function FooterComp() {
               href="https://flowbite.com"
               src="/logo.jpg"
               alt="Flowbite Logo"
-              
             />
           </div>
           <div className="grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-3 sm:gap-6">
