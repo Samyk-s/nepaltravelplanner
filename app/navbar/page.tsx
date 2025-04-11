@@ -29,7 +29,7 @@ export default function NavbarPage() {
         <NavbarLink href="/" active className="text-xl">
           Home
         </NavbarLink>
-        <NavbarLink href="/component/Planner" className="text-xl">
+        <NavbarLink href="/Planner" className="text-xl">
           Planner
         </NavbarLink>
         <NavbarLink href="/destination" className="text-xl">
