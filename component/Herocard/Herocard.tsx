@@ -18,7 +18,7 @@ export function HeroCardComp() {
         days, activities, and the best time to visit. 
       </p>
       <div className="w-full flex justify-center">
-        <Link href="/Planner" passHref>
+        <Link href="/" passHref>
           <Button variant="contained" color="primary" endIcon={<SendIcon />}>
             Plan Now
           </Button>
