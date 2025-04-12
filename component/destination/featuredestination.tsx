@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 type Destination = {
   id: number;
@@ -23,6 +24,7 @@ const destinations: Destination[] = [
 
 const FeatureDestinationsGrid: React.FC = () => {
   const destinationRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -53,10 +55,22 @@ const FeatureDestinationsGrid: React.FC = () => {
     });
   }, []);
 
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+    }
+  };
+
   return (
     <div
       style={{
-        padding: '20px',
+        padding: '20px 20px 40px',
         maxWidth: '1200px',
         margin: '0 auto',
         position: 'relative',
@@ -71,7 +85,7 @@ const FeatureDestinationsGrid: React.FC = () => {
           color: '#1a202c',
         }}
       >
-        Destinations
+        Featured Destinations
       </h2>
       <p
         style={{
@@ -84,7 +98,7 @@ const FeatureDestinationsGrid: React.FC = () => {
         Explore the beautiful places of Nepal
       </p>
 
-      {/* Fade effect containers */}
+      {/* Fade overlays */}
       <div
         style={{
           position: 'absolute',
@@ -117,20 +131,70 @@ const FeatureDestinationsGrid: React.FC = () => {
         />
       </div>
 
-      {/* Horizontal scroll container */}
+      {/* Scroll buttons */}
+      <button
+        onClick={scrollLeft}
+        style={{
+          position: 'absolute',
+          left: '10px',
+          top: 'calc(50% + 20px)',
+          transform: 'translateY(-50%)',
+          zIndex: 3,
+          backgroundColor: '#fff',
+          border: 'none',
+          padding: '10px',
+          cursor: 'pointer',
+          boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
+          borderRadius: '50%',
+          width: '40px',
+          height: '40px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        aria-label="Scroll Left"
+      >
+        <FaChevronLeft size={18} />
+      </button>
+      <button
+        onClick={scrollRight}
+        style={{
+          position: 'absolute',
+          right: '10px',
+          top: 'calc(50% + 20px)',
+          transform: 'translateY(-50%)',
+          zIndex: 3,
+          backgroundColor: '#fff',
+          border: 'none',
+          padding: '10px',
+          cursor: 'pointer',
+          boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
+          borderRadius: '50%',
+          width: '40px',
+          height: '40px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        aria-label="Scroll Right"
+      >
+        <FaChevronRight size={18} />
+      </button>
+
+      {/* Scroll container */}
       <div
+        ref={scrollContainerRef}
         style={{
           display: 'flex',
           overflowX: 'auto',
           gap: '16px',
-          padding: '10px 0',
+          padding: '20px 0',
           scrollBehavior: 'smooth',
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
           position: 'relative',
         }}
       >
-        {/* Hide scrollbar for Chrome/Safari */}
         <style jsx>{`
           div::-webkit-scrollbar {
             display: none;
@@ -144,7 +208,6 @@ const FeatureDestinationsGrid: React.FC = () => {
             padding: '0 50px',
           }}
         >
-          {/* Original items */}
           {destinations.map((destination, index) => (
             <DestinationCard
               key={`original-${destination.id}`}
@@ -154,8 +217,6 @@ const FeatureDestinationsGrid: React.FC = () => {
               }}
             />
           ))}
-
-          {/* Cloned items for seamless looping */}
           {destinations.map((destination, index) => (
             <DestinationCard
               key={`clone-${destination.id}`}

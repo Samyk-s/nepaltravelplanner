@@ -1,5 +1,5 @@
-'use client';
-
+"use client";
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -54,14 +54,16 @@ export function ContentComp() {
           ref={textRef}
           className="font-light text-gray-500 sm:text-lg dark:text-gray-400"
         >
-          <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-            We didnt reinvent the wheel
+          <h2 className="mb-4 text-4xl tracking-tight font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 dark:from-purple-300 dark:via-pink-400 dark:to-red-400">
+            We didn’t reinvent the wheel
           </h2>
+
           <p className="mb-4">
             We are strategists, designers and developers. Innovators and problem
-            solvers. Small enough to be simple and quick, but big enough to deliver
-            the scope you want at the pace you need. Small enough to be simple and
-            quick, but big enough to deliver the scope you want at the pace you need.
+            solvers. Small enough to be simple and quick, but big enough to
+            deliver the scope you want at the pace you need. Small enough to be
+            simple and quick, but big enough to deliver the scope you want at
+            the pace you need.
           </p>
           <p>
             We are strategists, designers and developers. Innovators and problem
@@ -69,24 +71,30 @@ export function ContentComp() {
           </p>
         </div>
         <div className="grid grid-cols-2 gap-4 mt-8">
-          <img
+          <Image
             ref={(el) => {
               // Update the ref array but don't return anything
               imageRefs.current[0] = el;
-            }} // No return value
+            }}
             className="w-full rounded-lg"
-            src="bannerb1.jpg"
+            src="/bannerb1.jpg" // Update path to be relative (recommended in Next.js)
             alt="office content 1"
+            width={1200} // Specify width
+            height={600} // Specify height
+            priority // Optional: Use if the image is critical for page load
           />
-          <img
-            ref={(el) => {
-              // Update the ref array but don't return anything
-              imageRefs.current[1] = el;
-            }} // No return value
-            className="mt-4 w-full lg:mt-10 rounded-lg"
-            src="bannerb2.jpg"
-            alt="office content 2"
-          />
+          <Image
+  ref={(el) => {
+    // Update the ref array but don't return anything
+    imageRefs.current[1] = el;
+  }}
+  className="mt-4 w-full lg:mt-10 rounded-lg"
+  src="/bannerb2.jpg" // Update path to be relative (recommended in Next.js)
+  alt="office content 2"
+  width={1200} // Specify width
+  height={600} // Specify height
+  priority // Optional: Use if the image is critical for page load
+/>
         </div>
       </div>
     </section>
