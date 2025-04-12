@@ -6,6 +6,7 @@ import {
   NavbarLink,
   NavbarToggle,
 } from "flowbite-react";
+import Image from "next/image"; // Import the Image component
 
 export default function NavbarPage() {
   return (
@@ -15,10 +16,13 @@ export default function NavbarPage() {
       className="fixed top-0 left-0 w-full z-50 bg-white shadow-md"
     >
       <NavbarBrand href="/">
-        <img
-          src="/logo.jpg"
-          className="mr-3 h-8 sm:h-10"
+        {/* Replace <img> with <Image> from next/image */}
+        <Image
+          src="/logo.jpg" // Path to your image
           alt="Flowbite React Logo"
+          width={40} // Provide width
+          height={40} // Provide height
+          className="mr-3" // Maintain your classes
         />
       </NavbarBrand>
       <div className="flex md:order-2">

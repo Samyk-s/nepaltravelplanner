@@ -4,6 +4,7 @@ import { Carousel } from "flowbite-react";
 import { HeroCardComp } from "../Herocard/Herocard";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import Image from "next/image"; // Import Next.js Image for optimization
 
 export function HeroComp() {
   const cardRefs = useRef<HTMLDivElement[]>([]);
@@ -28,7 +29,7 @@ export function HeroComp() {
   return (
     <div className="h-[80vh] sm:h-[90vh] xl:h-screen">
       <Carousel
-        onSlideChange={(index) => animateCard(index)} // 🧠 Animate on slide change
+        onSlideChange={(index) => animateCard(index)} // Animate on slide change
         slideInterval={5000}
       >
         {[1, 2, 4, 5].map((num, idx) => (
@@ -36,10 +37,14 @@ export function HeroComp() {
             key={idx}
             style={{ position: "relative", width: "100%", height: "100%" }}
           >
-            <img
+            {/* Replace <img> with <Image /> for automatic optimizations */}
+            <Image
               src={`/banner${num}.jpg`}
               alt={`Banner ${num}`}
+              layout="fill" // Make the image cover the container
+              objectFit="cover" // Ensure the image covers the space properly
               className="object-cover w-full h-full"
+              priority // Load this image priority to help with LCP
             />
             <div
               style={{
