@@ -3,8 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import NavbarPage from "./navbar/page";
 import FooterPage from "./footer/page";
-import NewsletterPage from "./newsletter/page"; // ✅ Import the initializer
+import NewsletterPage from "./newsletter/page";
 import GSAPInitializer from "@/component/gsap/GSAPInitializer";
+import { Analytics } from "@vercel/analytics/react"; // ✅ Add this line
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,14 +29,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <GSAPInitializer/> {/* ✅ This will run on client and register plugins globally */}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <GSAPInitializer /> {/* ✅ Runs on client */}
         <NavbarPage />
         {children}
         <NewsletterPage />
         <FooterPage />
+        <Analytics /> {/* ✅ Add this at the bottom of body */}
       </body>
     </html>
   );
